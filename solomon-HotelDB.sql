@@ -1,0 +1,60 @@
+DROP DATABASE IF EXISTS HotelDB;
+
+CREATE DATABASE HotelDB;
+USE HotelDB;
+
+CREATE TABLE RoomType (
+	RoomTypeID INT PRIMARY KEY AUTO_INCREMENT,
+    Description VARCHAR(30) NOT NULL
+);
+CREATE TABLE Amenity (
+	AmenityID INT PRIMARY KEY AUTO_INCREMENT,
+    Description VARCHAR(30) NOT NULL
+);
+CREATE TABLE Guest (
+	GuestID INT PRIMARY KEY AUTO_INCREMENT,
+	FirstName VARCHAR(30) NOT NULL,
+    LastName VARCHAR(30) NOT NULL,
+    Address VARCHAR(60) NOT NULL,
+    City VARCHAR(30) NOT NULL,
+    State VARCHAR(30) NOT NULL,
+    Zip VARCHAR(30) NOT NULL,
+    Phone VARCHAR(30) NOT NULL
+);
+CREATE TABLE Room (
+	RoomID INT PRIMARY KEY AUTO_INCREMENT,
+    RoomNumber INT NOT NULL,
+    ADAaccess VARCHAR(10) NOT NULL,
+    StandardOccupancy INT NOT NULL,
+    MaxOccupancy INT NOT NULL,
+    BasePrice DOUBLE NOT NULL,
+    ExtraPerson INT,
+    RoomTypeID INT NOT NULL,
+    FOREIGN KEY (RoomTypeID)
+		REFERENCES RoomType(RoomTypeID)
+);
+CREATE TABLE RoomAmenity (
+	RoomID INT NOT NULL,
+	AmenityID INT NOT NULL,
+    FOREIGN KEY (RoomID)
+		REFERENCES Room(RoomID),
+    FOREIGN KEY (AmenityID)
+		REFERENCES Amenity(AmenityID)
+);        
+CREATE TABLE Reservation (
+	ReservationID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(30) NOT NULL,
+    Adults INT NOT NULL,
+    Children INT NOT NULL,
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    TotalCost DOUBLE NOT NULL,
+    RoomID INT NOT NULL,
+    GuestID INT NOT NULL,
+    FOREIGN KEY (GuestID)
+		REFERENCES Guest(GuestID),
+    FOREIGN KEY (RoomID)
+		REFERENCES Room(RoomID)
+);        
+    
+    
